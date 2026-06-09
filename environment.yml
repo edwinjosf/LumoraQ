@@ -3,7 +3,6 @@ channels:
   - pytorch
   - conda-forge
   - defaults
-
 dependencies:
   - python=3.11
   - pip>=23.3
@@ -16,6 +15,5 @@ dependencies:
   - seaborn>=0.12.0
   - jupyter>=1.0.0
   - ipykernel
-
   - pip:
     - pennylane>=0.43.0

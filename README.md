@@ -4,11 +4,13 @@ Quantum Machine Learning for Satellite Image Classification using EuroSAT.
 ## Setup
 
 ### 1. Clone
-git clone https://github.com/your-username/LumoraQ.git
+git clone https://github.com/edwinjosf/LumoraQ.git
+
 cd LumoraQ
 
 ### 2. Create environment
 conda env create -f environment.yml
+
 conda activate lumoraq
 
 ### 3. Register Jupyter kernel
@@ -23,8 +25,8 @@ The EuroSAT dataset (~90MB) downloads automatically on first run.
 
 | Model       | Accuracy |
 |-------------|----------|
-| BaselineCNN | 80.28%   |
-| StrongCNN   | 88.83%   |
+| BaselineCNN | 84.10%   |
+| StrongCNN   | 93%      |
 | VQC         | TBD      |
 
 ## Project Structure
