@@ -1,0 +1,19 @@
+# Dataset
+data/
+
+# Model weights
+checkpoints/*.pth
+checkpoints/*.pt
+
+# Jupyter noise
+.ipynb_checkpoints/
+*.pyc
+__pycache__/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+venv/
+.env
