@@ -66,7 +66,7 @@ class HybridModel(nn.Module):
         self.fc      = nn.Linear(64 * 16 * 16, 256)
 
         # Quantum classifier head
-        self.vqc = VQCClassifier(in_features=256, n_qubits=4, n_classes=n_classes)
+        self.vqc = VQCClassifier(in_features=256, n_qubits=8, n_classes=n_classes)
 
     def forward(self, x):
         x = self.features(x)
