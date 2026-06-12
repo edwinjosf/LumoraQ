@@ -35,11 +35,12 @@ jupyter notebook notebooks/
 
 ## Results
 
-| Model       | Accuracy |
-|-------------|----------|
-| BaselineCNN | 84.10%   |
-| StrongCNN   | 93.00%   |
-| VQC         | TBD      |
+| Model                      | Accuracy |
+|----------------------------|----------|
+| BaselineCNN                | 84.10%   |
+| StrongCNN                  | 93%      |
+| HybridModel (4-qubit VQC)  | 59%      |
+| HybridModel (8-qubit VQC)  | 76%      |
 
 ---
 
