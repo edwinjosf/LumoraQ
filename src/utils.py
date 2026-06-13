@@ -17,3 +17,7 @@ def set_seed(seed=42):
     random.seed(seed)
     torch.backends.cudnn.deterministic = True
     print(f"Seed set: {seed}")
+
+def get_quantum_device():
+    # Quantum circuits only run on CPU — MPS/CUDA not supported by PennyLane simulator
+    return torch.device('cpu')
