@@ -1,6 +1,8 @@
+import os
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
 
 class BaselineCNN(nn.Module):
     def __init__(self, num_classes=10):
@@ -44,29 +46,45 @@ class StrongCNN(nn.Module):
         x = x.view(x.size(0), -1)
         return self.classifier(x)
 
+
 from src.quantum import VQCClassifier
 
+CHECKPOINT_PATH = os.path.join(
+    os.path.dirname(__file__), '..', 'checkpoints', 'strong_cnn_best.pth'
+)
+
 class HybridModel(nn.Module):
-    def __init__(self, n_classes=10):
+    def __init__(self, n_qubits=8, n_layers=2, n_classes=10):
         super().__init__()
 
-        # StrongCNN as feature extractor — everything except the classifier
-        self.features = nn.Sequential(
-            # Block 1
-            nn.Conv2d(3, 32, 3, padding=1), nn.BatchNorm2d(32), nn.ReLU(),
-            nn.Conv2d(32, 32, 3, padding=1), nn.BatchNorm2d(32), nn.ReLU(),
-            nn.MaxPool2d(2, 2),
-            # Block 2
-            nn.Conv2d(32, 64, 3, padding=1), nn.BatchNorm2d(64), nn.ReLU(),
-            nn.Conv2d(64, 64, 3, padding=1), nn.BatchNorm2d(64), nn.ReLU(),
-            nn.MaxPool2d(2, 2)
+        # Load pretrained StrongCNN weights
+        backbone = StrongCNN(num_classes=n_classes)
+        backbone.load_state_dict(
+            torch.load(CHECKPOINT_PATH, map_location='cpu')
         )
 
-        self.dropout = nn.Dropout(0.4)
-        self.fc      = nn.Linear(64 * 16 * 16, 256)
+        # Reuse pretrained conv blocks — keys match exactly
+        self.features = nn.Sequential(
+            *list(backbone.block1.children()),
+            *list(backbone.block2.children())
+        )
 
-        # Quantum classifier head
-        self.vqc = VQCClassifier(in_features=256, n_qubits=8, n_classes=n_classes)
+        self.dropout = backbone.classifier[0]   # Dropout(0.4)
+        self.fc      = backbone.classifier[1]   # Linear(16384, 256)
+
+        # Freeze pretrained layers — only quantum head trains
+        for param in self.features.parameters():
+            param.requires_grad = False
+        for param in self.fc.parameters():
+            param.requires_grad = False
+
+        # Quantum classifier head — n_qubits controlled per notebook
+        self.vqc = VQCClassifier(
+            in_features=256,
+            n_qubits=n_qubits,
+            n_layers=n_layers,
+            n_classes=n_classes
+        )
 
     def forward(self, x):
         x = self.features(x)
