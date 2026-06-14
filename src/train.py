@@ -5,11 +5,13 @@ CHECKPOINT_DIR = os.path.join(os.path.dirname(__file__), '..', 'checkpoints')
 os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
 def train(model, train_loader, val_loader,
-          epochs=15, lr=0.0005, device='cpu', save_name='model'):
+          epochs=15, lr=0.0005, device='cpu', save_name='model', optimizer=None):
 
     model.to(device)
     criterion = torch.nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+
+    if optimizer is None:
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
     best_val_acc = 0.0
     history = {'train_loss': [], 'val_acc': []}
@@ -46,7 +48,9 @@ def train(model, train_loader, val_loader,
         if val_acc > best_val_acc:
             best_val_acc = val_acc
             path = os.path.join(CHECKPOINT_DIR, f'{save_name}_best.pth')
+            versioned_path = os.path.join(CHECKPOINT_DIR, f'{save_name}_{val_acc:.4f}.pth')
             torch.save(model.state_dict(), path)
+            torch.save(model.state_dict(), versioned_path)
             print(f"  ✓ Checkpoint saved ({val_acc:.4f})")
 
     return history
