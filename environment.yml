@@ -17,3 +17,4 @@ dependencies:
   - ipykernel
   - pip:
     - pennylane>=0.43.0
+    - nbstripout
