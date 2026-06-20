@@ -39,8 +39,8 @@ jupyter notebook notebooks/
 |----------------------------|----------|
 | BaselineCNN                | 84.10%   |
 | StrongCNN                  | 93%      |
-| HybridModel (4-qubit VQC)  | 59%      |
-| HybridModel (8-qubit VQC)  | 76%      |
+| HybridModel (4-qubit VQC)  | 63.04%      |
+| HybridModel (8-qubit VQC)  | 78.35%      |
 
 ---
 
@@ -58,4 +58,4 @@ LumoraQ/
 ---
 
 ## Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md) e
+See [CONTRIBUTING.md](CONTRIBUTING.md)
