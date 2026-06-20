@@ -58,4 +58,4 @@ LumoraQ/
 ---
 
 ## Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md) e
+See [CONTRIBUTING.md](CONTRIBUTING.md)
